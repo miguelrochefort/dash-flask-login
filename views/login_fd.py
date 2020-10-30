@@ -16,14 +16,12 @@ layout = html.Div(children=[
                     className="row",
                     children=[
                         html.Div(
-                            className="ten columns",
                             children=[
                                 html.Br(),
-                                html.Div('User non authenticated - Please login to view the success screen'),
+                                html.Div('User non authenticated - Please login to view the dashboard'),
                             ]
                         ),
                         html.Div(
-                            className="two columns",
                             # children=html.A(html.Button('LogOut'), href='/')
                             children=[
                                 html.Br(),

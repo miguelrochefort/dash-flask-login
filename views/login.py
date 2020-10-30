@@ -50,7 +50,7 @@ def sucess(n_clicks, input1, input2):
     if user:
         if check_password_hash(user.password, input2):
             login_user(user)
-            return '/success'
+            return '/dashboard'
         else:
             pass
     else:

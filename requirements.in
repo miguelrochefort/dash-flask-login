@@ -6,3 +6,6 @@ flask_login
 werkzeug
 flask_sqlalchemy
 gunicorn
+pandas
+pyahocorasick
+dateparser

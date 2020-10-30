@@ -48,3 +48,7 @@ push_to_server
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Data
+views/data/*
+data/*
