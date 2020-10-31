@@ -1,6 +1,10 @@
 MIT License
 
-Copyright (c) 2018 RafaelMiquelino
+Copyright (c) 2020 Miguel Rochefort
+
+Copyright (c) 2019 Plotly (Borrowed from https://github.com/plotly/dash-sample-apps)
+
+Copyright (c) 2018 RafaelMiquelino (Forked from https://github.com/RafaelMiquelino/dash-flask-login)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

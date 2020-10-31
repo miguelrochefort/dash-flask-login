@@ -1,12 +1,8 @@
-# dash-flask-login
+# wgu-time-tracker
 
-![dash-flask-login](https://user-images.githubusercontent.com/31367475/47422577-4f761500-d759-11e8-90c2-b70a79fcd610.gif)
+This project is a time-tracking dashboard powered by [ActivityWatch](https://activitywatch.net) that allows students of [Western Governors University](https://wgu.edu) to visualize their study time.
 
-This is an example of Flask-login implementation on top of a Dash application for users authentication.
-
-The example comes with users authentication through a sqlite3 database, however you can use your own database by changing the `con` parameter with your database URI in the `config.txt` file.
-
-The example comes with the a standard username `test` and password `test1` but you can add more users using the `add_remove_users.ipynb` jupyter notebook or the functions available in the `users_mgt.py`.
+The project comes with the a standard username `test` and password `test1` but you can add more users using the `add_remove_users.ipynb` jupyter notebook or the functions available in the `users_mgt.py`.
 
 ### Files description:
 `add_remove_users.ipynb`: A jupyter notebook to help creating and removing users<br/>
@@ -36,13 +32,7 @@ source venv/bin/activate
 4. open http://127.0.0.1:5000 in your browser or
 5. `flask run --host=0.0.0.0` or `gunicorn --bind 0.0.0.0:8000 wsgi:application` to open for external connections
 
-### Deployng to Heroku
-1. Install Heroku CLI: https://devcenter.heroku.com/articles/heroku-cli
-2. Login to your heroku account: `heroku login`
-3. Create the app: `heroku create`
-4. Deploy to Heroku: `git push heroku master`
-5. Access the app via the address provided by Heroku
+### Attributions
 
-### Contributing
-
-PRs accepted! Please contribute if you believe this example can be improved.
+* This project is a fork of [dash-flask-login](https://github.com/RafaelMiquelino/dash-flask-login).
+* This project borrows from [Dash Sample Apps](https://github.com/plotly/dash-sample-apps).
