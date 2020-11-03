@@ -9,3 +9,5 @@ gunicorn
 pandas
 pyahocorasick
 dateparser
+pyyaml
+sklearn

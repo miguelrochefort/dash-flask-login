@@ -40,7 +40,6 @@ layout = html.Div(
     ]
 )
 
-
 @app.callback(Output('url_login', 'pathname'),
               [Input('login-button', 'n_clicks')],
               [State('uname-box', 'value'),
