@@ -2,7 +2,7 @@ runtime: python37
 
 instance_class: F2
 
-entrypoint: gunicorn -b :$PORT wsgi:application
+entrypoint: gunicorn -b :$PORT wsgi:application --timeout 600
 
 runtime_config:
   python_version: 3

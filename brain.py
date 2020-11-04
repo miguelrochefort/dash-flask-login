@@ -21,7 +21,7 @@ DATA_PATH = PATH.joinpath("data").resolve()
 
 use_alias = False # TODO
 
-wgu = yaml.load(open(DATA_PATH.joinpath("topics.yaml")))
+wgu = yaml.load(open(DATA_PATH.joinpath("topics.yaml")), Loader=yaml.FullLoader)
 
 map = {}
 
@@ -163,7 +163,7 @@ def predict(df, method):
     df["text"] = (df["app"].astype(str) + " " + df["title"].astype(str) + " " + df["url"].astype(str)).str.lower()
     df["topics"] = method(df["text"].values)
     df = df[df["topics"].str.len() > 0]
-    df["weighted_topics"] = df[["topics", "start", "end"]].apply(lambda x: [(topic, x.end - x.start) for topic in x.topics], axis=1)
+    df["weighted_topics"] = df.apply(lambda x: [(topic, x.end - x.start) for topic in x.topics], axis=1)
     df["session"] = sessionize(df, timedelta(minutes=5), timedelta(minutes=5))
     df = df.groupby("session").agg(
         start = ("start", "min"),
@@ -226,12 +226,16 @@ def load_generic(method):
     # TODO: Remove duplicate web browser events (Chrome)
     df = df[~(df.title.astype(str).str.endswith("- Google Chrome"))]
     
-    print("PREDICTING")
-    df = df
-    df = predict(df, method)
-    df = augment_data(df)
-    print("PREDICTED")
-    return df
+    try:
+      print("PREDICTING")
+      df = df
+      df = predict(df, method)
+      df = augment_data(df)
+      print("PREDICTED")
+      return df
+    except Exception as e:
+      print("ERROR PREDICTING", e)
+      return df
 
 def load_keywords():
     print("LOAD KEYWORDS")

@@ -44,10 +44,11 @@ layout = html.Div(
                             id="data_source",
                             options=[
                                 { "label": "Labeled Sessions", "value": "labels" },
-                                { "label": "Keyword Matching", "value": "keywords" },
-                                { "label": "Support Vector Classifier", "value": "svc" },
+                                { "label": "Predicted Sessions ", "value": "keywords" },
+                                # { "label": "Keyword Matching", "value": "keywords" },
+                                # { "label": "Support Vector Classifier", "value": "svc" },
                             ],
-                            value="labels",
+                            value="keywords",
                             className="dcc_control",
                         ),
                         html.P("College:", className="control_label"),
@@ -168,11 +169,11 @@ def update_data_source(data_source):
 
     if data_source not in data_sources:
         if data_source == "labels":
-            data_sources[data_source] = load_labels()
+            data_sources["labels"] = load_labels()
         elif data_source == "keywords":
-            data_sources[data_source] = load_keywords()
-        elif data_source == "svc":
-            data_sources[data_source] = load_svc()
+            data_sources["keywords"] = load_keywords()
+        # elif data_source == "svc":
+        #     data_sources["svc"] = load_svc()
         else:
             return None # TODO
 
@@ -254,7 +255,7 @@ def filter_df(data):
 def update_text(data):
     try:
         df = filter_df(data)
-        
+
         days = math.ceil((df["end"].max() - df["start"].min()).total_seconds() / 60 / 60 / 24)
         sessions = len(df)
         total = math.ceil((df["end"] - df["start"]).sum().total_seconds() / 60 / 60)
@@ -266,7 +267,8 @@ def update_text(data):
             str(total) + " hours",
             str(weekly) + " hours"
         ]
-    except:
+    except Exception as e:
+        print("ERROR:", e)
         return "-", "-", "-", "-"
         
 def make_placeholder():
@@ -307,7 +309,8 @@ def make_bar_figure(data):
         fig.update_layout(title_x=0.5)
         fig.update_layout(xaxis_title="", yaxis_title="Hours")
         return fig
-    except:
+    except Exception as e:
+        print("ERROR:", e)
         return make_placeholder()
 
 @app.callback(
@@ -323,7 +326,8 @@ def make_gantt_figure(data):
         fig.update_layout(title_x=0.5, showlegend=False)
         fig.update_layout(xaxis_title="", yaxis_title="")
         return fig
-    except:
+    except Exception as e:
+        print("ERROR:", e)
         return make_placeholder()
 
 @app.callback(
@@ -356,5 +360,6 @@ def make_sunburst_figure(data):
         )
         fig.update_layout(title_x=0.5)
         return fig
-    except:
+    except Exception as e:
+        print("ERROR:", e)
         return make_placeholder()

@@ -18,7 +18,7 @@ layout = html.Div(children=[
                         html.Div(
                             children=[
                                 html.Br(),
-                                html.Div('User non authenticated - Please login to view the dashboard'),
+                                html.Div('You are not authenticated. Please log in to view the dashboard.'),
                             ]
                         ),
                         html.Div(
