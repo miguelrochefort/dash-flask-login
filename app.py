@@ -26,7 +26,7 @@ header = html.Div(
                     ],
                     id="title",
                 ),
-                html.A("Logout", id="logout", href="/logout"),
+                # html.A("Logout", id="logout", href="/logout"),
             ],
             id="header",
             className="row flex-display",
@@ -46,22 +46,23 @@ app.layout = html.Div(
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
 def display_page(pathname):
-    if pathname == '/' or pathname == '/login':
-        if current_user.is_authenticated:
-            return dashboard.layout
-        else:
-            return login.layout
-    elif pathname == "/dashboard":
-        if current_user.is_authenticated:
-            return dashboard.layout
-        else:
-            return login_fd.layout  
-    elif pathname == '/logout':
-        if current_user.is_authenticated:
-            logout_user()
-        return login_fd.layout
-    else:
-        return '404'
+    return dashboard.layout
+    # if pathname == '/' or pathname == '/login':
+    #     if current_user.is_authenticated:
+    #         return dashboard.layout
+    #     else:
+    #         return login.layout
+    # elif pathname == "/dashboard":
+    #     if current_user.is_authenticated:
+    #         return dashboard.layout
+    #     else:
+    #         return login_fd.layout  
+    # elif pathname == '/logout':
+    #     if current_user.is_authenticated:
+    #         logout_user()
+    #     return login_fd.layout
+    # else:
+    #     return '404'
 
 
 @app.callback(

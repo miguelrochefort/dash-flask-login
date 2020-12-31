@@ -211,7 +211,7 @@ def augment_data(df):
 def load_labels():
     print("LOADING LABELS")  
     df = pd.read_csv(
-      DATA_PATH.joinpath("labeled_sessions.csv"), 
+      DATA_PATH.joinpath("labeled_sessions2.csv"), 
       parse_dates=["start", "end"], 
       converters={'topics': ast.literal_eval}
     )

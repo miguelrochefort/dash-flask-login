@@ -20,9 +20,11 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 
 from server import app
-from brain import load_labels, load_keywords, load_svc
+from brain import load_labels#, load_keywords, load_svc
 
 localtz = pytz.timezone("America/New_York") # TODO
+
+filtered_df = load_labels()
 
 # Create controls
 terms = [{"label": term, "value": term } for term in ["All"] + list(range(1,10))]
@@ -32,25 +34,12 @@ weeks = [{"label": week, "value": week } for week in ["All"] + list(range(1,26))
 layout = html.Div(
     [
         dcc.Store(id="aggregate_data"),
-        dcc.Store(id="data_source_loaded"),
         # empty Div to trigger javascript file for graph resizing
         html.Div(id="output-clientside"),
         html.Div(
             [
                 html.Div(
                     [
-                        html.P("Data source:", className="control_label"),
-                        dcc.Dropdown(
-                            id="data_source",
-                            options=[
-                                { "label": "Labeled Sessions", "value": "labels" },
-                                { "label": "Predicted Sessions ", "value": "keywords" },
-                                # { "label": "Keyword Matching", "value": "keywords" },
-                                # { "label": "Support Vector Classifier", "value": "svc" },
-                            ],
-                            value="keywords",
-                            className="dcc_control",
-                        ),
                         html.P("College:", className="control_label"),
                         dcc.Dropdown(
                             id="college",
@@ -158,31 +147,6 @@ app.clientside_callback(
 
 @app.callback(
     [
-        Output("data_source_loaded", "data"),
-    ],
-    [
-        Input("data_source", "value"),
-    ]
-)
-def update_data_source(data_source):
-    print("UPDATE DATA SOURCE")
-
-    if data_source not in data_sources:
-        if data_source == "labels":
-            data_sources["labels"] = load_labels()
-        elif data_source == "keywords":
-            data_sources["keywords"] = load_keywords()
-        # elif data_source == "svc":
-        #     data_sources["svc"] = load_svc()
-        else:
-            return None # TODO
-
-    print("LOADED DATA SOURCE")
-    return [data_source]
-
-
-@app.callback(
-    [
         Output("week", "value"),
         Output("week", "disabled"),
     ],
@@ -201,14 +165,12 @@ def update_week_dropdown(term, week):
         Output("aggregate_data", "data"),
     ],
     [
-        Input("data_source", "value"),
         Input("enrollment_date", "date"),
         Input("term", "value"),
         Input("week", "value"),
-        Input("data_source_loaded", "data")
     ],
 )
-def update_aggregate_data(data_source, enrollment_date, term, week, test):
+def update_aggregate_data(enrollment_date, term, week):
     enrollment_date = dateparser.parse(enrollment_date)
     start = enrollment_date.replace(tzinfo=localtz) # TODO
     if term == "All":
@@ -223,18 +185,13 @@ def update_aggregate_data(data_source, enrollment_date, term, week, test):
             start = start + timedelta(weeks=week-1)
             end = start + timedelta(weeks=1)
 
-    return [{"start": start, "end": end, "data_source": data_source}]
-
-data_sources = {}
+    return [{"start": start, "end": end}]
 
 def filter_df(data):
-    data_source = data["data_source"]
     start = data["start"]
     end = data["end"]
 
-    df = data_sources[data_source] if data_source in data_sources else None
-    if df is None:
-        return None
+    df = filtered_df
 
     df["start"] = df["start"].dt.tz_convert(localtz)
     df["end"] = df["end"].dt.tz_convert(localtz)
